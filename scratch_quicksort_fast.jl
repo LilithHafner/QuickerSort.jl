@@ -61,22 +61,17 @@ function qs3!(v::AbstractVector, (t,stack) = make_scratch2(v), o::Ordering=Forwa
         end
     end
 
-    swaps = 0
-
     @inbounds for i = (firstindex(v) + 1):lastindex(v)
         j = i
         x = v[i]
         while j > firstindex(v)
             y = v[j-1]
             lt(o, x, y) || break
-            swaps += 1
             v[j] = y
             j -= 1
         end
         v[j] = x
     end
-
-    # @show swaps/THRESHOLD()/length(v)
 
     v
 end
