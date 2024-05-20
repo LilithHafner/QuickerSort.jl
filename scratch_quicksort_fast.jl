@@ -2,10 +2,6 @@ using Base.Order
 
 THRESHOLD() = 20
 
-function _copyto!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::Int)
-    src === dst || copyto!(dst, lo, src, lo, hi-lo+1)
-end
-
 function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::Int, o::Ordering, rev::Bool)
     @inbounds for i = lo:hi
         j = i
@@ -20,8 +16,9 @@ function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::In
     end
 end
 
-make_scratch2(v::AbstractVector) = (similar(v), Memory{Tuple{Int, Int, typeof(v), typeof(v), Bool}}(undef, Base.top_set_bit(length(v)-1)))
-function qs3!(v::AbstractVector, (t,stack) = make_scratch2(v), o::Ordering=Forward)
+make_scratch(v::AbstractVector) = (similar(v), Memory{Tuple{Int, Int, typeof(v), typeof(v), Bool}}(undef, Base.top_set_bit(length(v)-1)))
+function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v); order::Ordering=Forward)
+    o = order
     stack_size = 0
 
     lo, hi = firstindex(v), lastindex(v)
