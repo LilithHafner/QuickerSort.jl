@@ -6,6 +6,20 @@ function _copyto!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::Int)
     src === dst || copyto!(dst, lo, src, lo, hi-lo+1)
 end
 
+function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::Int, o::Ordering)
+    @inbounds for i = lo:hi
+        j = i
+        x = src[i]
+        while j > lo
+            y = dst[j-1]
+            lt(o, x, y) || break
+            dst[j] = y
+            j -= 1
+        end
+        dst[j] = x
+    end
+end
+
 make_scratch2(v::AbstractVector) = (similar(v), Memory{Tuple{Int, Int, typeof(v), typeof(v)}}(undef, Base.top_set_bit(length(v)-1)))
 function qs3!(v::AbstractVector, (t,stack) = make_scratch2(v), o::Ordering=Forward)
     stack_size = 0
@@ -17,8 +31,6 @@ function qs3!(v::AbstractVector, (t,stack) = make_scratch2(v), o::Ordering=Forwa
 
     @inbounds if hi - lo > THRESHOLD()
         while true
-
-            # @show v t stack
 
             # src[lo:hi] => dst[lo:hi]
 
@@ -38,15 +50,16 @@ function qs3!(v::AbstractVector, (t,stack) = make_scratch2(v), o::Ordering=Forwa
             new_pivot_index = hi-large_values
 
             if new_pivot_index-lo < THRESHOLD() && hi-new_pivot_index < THRESHOLD()
-                _copyto!(v, dst, lo, hi)
+                smallsort_to!(v, dst, lo, new_pivot_index-1, o)
+                smallsort_to!(v, dst, new_pivot_index+1, hi, o)
                 stack_size == 0 && (v[new_pivot_index] = pivot; break)
                 lo, hi, src, dst = stack[stack_size]
                 stack_size -= 1
             elseif new_pivot_index-lo < THRESHOLD()
-                _copyto!(v, dst, lo, new_pivot_index-1)
+                smallsort_to!(v, dst, lo, new_pivot_index-1, o)
                 lo = new_pivot_index+1
             elseif hi-new_pivot_index < THRESHOLD()
-                _copyto!(v, dst, new_pivot_index+1, hi)
+                smallsort_to!(v, dst, new_pivot_index+1, hi, o)
                 hi = new_pivot_index-1
             elseif new_pivot_index-lo < hi-new_pivot_index
                 stack[stack_size += 1] = (new_pivot_index+1, hi, src, dst)
@@ -59,18 +72,8 @@ function qs3!(v::AbstractVector, (t,stack) = make_scratch2(v), o::Ordering=Forwa
 
             v[new_pivot_index] = pivot
         end
-    end
-
-    @inbounds for i = (firstindex(v) + 1):lastindex(v)
-        j = i
-        x = v[i]
-        while j > firstindex(v)
-            y = v[j-1]
-            lt(o, x, y) || break
-            v[j] = y
-            j -= 1
-        end
-        v[j] = x
+    else
+        smallsort_to!(v, v, lo, hi, o)
     end
 
     v
