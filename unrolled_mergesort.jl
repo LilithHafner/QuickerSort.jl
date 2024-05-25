@@ -60,3 +60,11 @@ function join_block(exprs::Expr...)
     end
     Expr(:block, body...)
 end
+
+#=
+julia> create_unrolled_mergesort(10); @time @eval unrolled_mergesort(rand(10))
+  0.929257 seconds (2.71 M allocations: 118.347 MiB, 8.77% gc time)
+
+julia> @b rand(Int,10),rand(Int,10) unrolled_mergesort(copyto!(_...))
+10.886 ns
+=#
