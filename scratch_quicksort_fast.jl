@@ -88,3 +88,19 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
 
     v
 end
+
+struct Div10
+    n::Int
+end
+Base.isless(a::Div10, b::Div10) = a.n÷10 < b.n÷10
+function test()
+    for len in 1:1000
+        for _ in 1:10
+            v = rand(len)
+            quicker_sort!(copy(v)) == sort(v) || error("Correctness $len")
+        end
+
+        v2 = Div10.(rand(Int, len))
+        quicker_sort!(copy(v2)) == sort(v2) || error("Stability $len")
+    end
+end
