@@ -36,13 +36,49 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
 
             # src[lo:hi] => dst[lo:hi]
 
-            pivot_index = rand(lo:hi)
-
-            pivot = src[pivot_index]
-
             large_values = 0
+            lox = lo
 
-            for i in lo:pivot_index-1
+            # pivot_index = rand(lo:hi)
+            # pivot = src[pivot_index]
+            pivot_a = src[lo]
+            pivot_b = src[(lo+hi) >> 1]
+            pivot_c = src[hi]
+            if isless(pivot_b, pivot_a)
+                if isless(pivot_c, pivot_b)
+                    pivot_index = (lo+hi) >> 1
+                    pivot = pivot_b
+                    lox += 1
+                    large_values += 1
+                    dst[hi] = pivot_a
+                elseif isless(pivot_c, pivot_a)
+                    pivot_index = hi
+                    pivot = pivot_c
+                    lox += 1
+                    large_values += 1
+                    dst[hi] = pivot_a
+                else
+                    pivot_index = lo
+                    pivot = pivot_a
+                end
+            else
+                if isless(pivot_c, pivot_a)
+                    pivot_index = lo
+                    pivot = pivot_a
+                elseif isless(pivot_c, pivot_b)
+                    pivot_index = hi
+                    pivot = pivot_c
+                    lox += 1
+                    dst[lo] = pivot_a
+                else
+                    pivot_index = (lo+hi) >> 1
+                    pivot = pivot_b
+                    lox += 1
+                    dst[lo] = pivot_a
+                end
+            end
+
+            for i in lox:pivot_index-1
                 x = src[i]
                 fx = rev ? !isless(x, pivot) : isless(pivot, x)
                 dst[(fx ? hi : i) - large_values] = x
