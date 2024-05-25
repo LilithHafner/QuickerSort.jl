@@ -14,7 +14,7 @@ function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::In
     end
 end
 
-make_scratch(v::AbstractVector) = (similar(v), Memory{Tuple{Int, Int, typeof(v), typeof(v), Bool}}(undef, Base.top_set_bit(length(v)-1)))
+make_scratch(v::AbstractVector) = similar(v), Memory{Tuple{Int, Int, typeof(v), typeof(v), Bool}}(undef, max(0, Base.top_set_bit(length(v))-Base.top_set_bit(THRESHOLD())))
 function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
     stack_size = 0
 
