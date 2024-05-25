@@ -38,6 +38,8 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
 
             large_values = 0
             lox = lo
+            hix = hi
+            hi_hi = false
 
             # pivot_index = rand(lo:hi)
             # pivot = src[pivot_index]
@@ -51,6 +53,7 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
                     lox += 1
                     large_values += 1
                     dst[hi] = pivot_a
+                    hix -= 1
                 elseif isless(pivot_c, pivot_a)
                     pivot_index = hi
                     pivot = pivot_c
@@ -60,11 +63,14 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
                 else
                     pivot_index = lo
                     pivot = pivot_a
+                    hix -= 1
+                    hi_hi = true
                 end
             else
                 if isless(pivot_c, pivot_a)
                     pivot_index = lo
                     pivot = pivot_a
+                    hix -= 1
                 elseif isless(pivot_c, pivot_b)
                     pivot_index = hi
                     pivot = pivot_c
@@ -75,6 +81,8 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
                     pivot = pivot_b
                     lox += 1
                     dst[lo] = pivot_a
+                    hix -= 1
+                    hi_hi = true
                 end
             end
 
@@ -84,12 +92,15 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
                 dst[(fx ? hi : i) - large_values] = x
                 large_values += fx
             end
-            for i in pivot_index+1:hi
+            for i in pivot_index+1:hix
                 x = src[i]
                 fx = rev ? isless(pivot, x) : !isless(x, pivot)
                 dst[(fx ? hi : i-1) - large_values] = x
                 large_values += fx
             end
+
+            hix != hi && (dst[hix-large_values+hi_hi] = src[hi])
+            large_values += hi_hi
 
             new_pivot_index = hi-large_values
 
