@@ -140,3 +140,19 @@ function test()
         quicker_sort!(copy(v2)) == sort(v2) || error("Stability $len")
     end
 end
+
+struct Count
+    n::Int
+    counter::Base.RefValue{Int}
+end
+Base.isless(a::Count, b::Count) = (a.counter[] += 1; a.n < b.n)
+function count_comparisons(n)
+    counter = Ref(0)
+    x = rand(Int, n)
+    quicker_sort!(Count.(x, Ref(counter)))
+    counter[]
+end
+count_comparisons(n, m) = [count_comparisons(n) for _ in 1:m]
+function min_count(n)
+    Float64(log2(factorial(big(n))))
+end
