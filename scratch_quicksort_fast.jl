@@ -1,5 +1,6 @@
 THRESHOLD() = 20
 
+"Use insertion sort to sort `src[lo:hi]` into `dst[lo:hi]`. Stable if rev=false, otherwise reverse-stable."
 function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::Int, rev::Bool)
     @inbounds for i = lo:hi
         j = i
@@ -29,7 +30,7 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
 
             # src[lo:hi] => dst[lo:hi]
 
-            pivot_index = mod(hash(lo), lo:hi)
+            pivot_index = rand(lo:hi)
 
             pivot = src[pivot_index]
 
