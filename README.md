@@ -1,8 +1,12 @@
 # QuickerSort
 
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://LilithHafner.github.io/QuickerSort.jl/stable/)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://LilithHafner.github.io/QuickerSort.jl/dev/)
+<!-- [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://LilithHafner.github.io/QuickerSort.jl/stable/) -->
+<!-- [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://LilithHafner.github.io/QuickerSort.jl/dev/) -->
 [![Build Status](https://github.com/LilithHafner/QuickerSort.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/LilithHafner/QuickerSort.jl/actions/workflows/CI.yml?query=branch%3Amain)
-[![Coverage](https://codecov.io/gh/LilithHafner/QuickerSort.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/LilithHafner/QuickerSort.jl)
-[![PkgEval](https://JuliaCI.github.io/NanosoldierReports/pkgeval_badges/Q/QuickerSort.svg)](https://JuliaCI.github.io/NanosoldierReports/pkgeval_badges/Q/QuickerSort.html)
-[![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+<!-- [![Coverage](https://codecov.io/gh/LilithHafner/QuickerSort.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/LilithHafner/QuickerSort.jl) -->
+<!-- [![PkgEval](https://JuliaCI.github.io/NanosoldierReports/pkgeval_badges/Q/QuickerSort.svg)](https://JuliaCI.github.io/NanosoldierReports/pkgeval_badges/Q/QuickerSort.html) -->
+<!-- [![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl) -->
+
+This is a demonstration package to highlight the partitioning scheme I developed for use in Julia's default non-radixable sorting algorithm.
+
+The most effective way to utilize the fruits of this research in deployment is to use the Julia default sorting algorithms. However, for academics or developers seeking to understand, test, and further improve these algorithms, this is a package worth looking at.
