@@ -20,7 +20,7 @@ function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::In
             x = src[i]
             while j > lo
                 y = dst[j-1]
-                !isless(y, x) || break
+                isless(y, x) && break
                 dst[j] = y
                 j -= 1
             end
