@@ -15,12 +15,16 @@ function test(f)
     for len in 1:1000
         for _ in 1:10
             v = rand(len)
-            f(copy(v)) == sort(v) || error("Correctness $len")
+            f(copy(v)) == sort(v) || fail(v, "Correctness")
         end
 
         v2 = Div10.(rand(1:100, len))
-        f(copy(v2)) == sort(v2) || error("Stability $len")
+        f(copy(v2)) == sort(v2) || fail(v2, "Stability")
     end
+end
+function fail(v, message)
+    global fail_example = v
+    error(message * " " * string(length(v)))
 end
 
 struct Count

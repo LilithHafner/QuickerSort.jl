@@ -8,7 +8,7 @@ function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::In
             x = src[i]
             while j > lo
                 y = dst[j-1]
-                isless(x, y) || break
+                isless(y, x) && break
                 dst[j] = y
                 j -= 1
             end
@@ -20,7 +20,7 @@ function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::In
             x = src[i]
             while j > lo
                 y = dst[j-1]
-                isless(y, x) && break
+                isless(x, y) || break
                 dst[j] = y
                 j -= 1
             end
@@ -60,15 +60,15 @@ function hafner_quicksort!(v::AbstractVector, (t,stack) = make_scratch(v))
             pivot_a = src[lo]
             pivot_b = src[(lo+hi) >> 1]
             pivot_c = src[hi]
-            if isless(pivot_b, pivot_a)
-                if isless(pivot_c, pivot_b)
+            if rev ? !isless(pivot_a, pivot_b) : isless(pivot_b, pivot_a)
+                if rev ? !isless(pivot_b, pivot_c) : isless(pivot_c, pivot_b)
                     pivot_index = (lo+hi) >> 1
                     pivot = pivot_b
                     lox += 1
                     large_values += 1
                     dst[hi] = pivot_a
                     hix -= 1
-                elseif isless(pivot_c, pivot_a)
+                elseif rev ? !isless(pivot_a, pivot_c) : isless(pivot_c, pivot_a)
                     pivot_index = hi
                     pivot = pivot_c
                     lox += 1
@@ -81,11 +81,11 @@ function hafner_quicksort!(v::AbstractVector, (t,stack) = make_scratch(v))
                     hi_hi = true
                 end
             else
-                if isless(pivot_c, pivot_a)
+                if rev ? !isless(pivot_a, pivot_c) : isless(pivot_c, pivot_a)
                     pivot_index = lo
                     pivot = pivot_a
                     hix -= 1
-                elseif isless(pivot_c, pivot_b)
+                elseif rev ? !isless(pivot_b, pivot_c) : isless(pivot_c, pivot_b)
                     pivot_index = hi
                     pivot = pivot_c
                     lox += 1
