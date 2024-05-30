@@ -36,7 +36,7 @@ function make_scratch(v::AbstractVector)
     t, stack
 end
 
-function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
+function hafner_quicksort!(v::AbstractVector, (t,stack) = make_scratch(v))
     stack_size = 0
 
     lo, hi = firstindex(v), lastindex(v)
@@ -148,36 +148,4 @@ function quicker_sort!(v::AbstractVector, (t,stack) = make_scratch(v))
     end
 
     v
-end
-
-struct Div10
-    n::Int
-end
-Base.isless(a::Div10, b::Div10) = a.n÷10 < b.n÷10
-function test()
-    for len in 1:1000
-        for _ in 1:10
-            v = rand(len)
-            quicker_sort!(copy(v)) == sort(v) || error("Correctness $len")
-        end
-
-        v2 = Div10.(rand(Int, len))
-        quicker_sort!(copy(v2)) == sort(v2) || error("Stability $len")
-    end
-end
-
-struct Count
-    n::Int
-    counter::Base.RefValue{Int}
-end
-Base.isless(a::Count, b::Count) = (a.counter[] += 1; a.n < b.n)
-function count_comparisons(n)
-    counter = Ref(0)
-    x = rand(Int, n)
-    quicker_sort!(Count.(x, Ref(counter)))
-    counter[]
-end
-count_comparisons(n, m) = [count_comparisons(n) for _ in 1:m]
-function min_count(n)
-    Float64(log2(factorial(big(n))))
 end
