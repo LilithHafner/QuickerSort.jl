@@ -43,22 +43,22 @@ function lomuto_partition!(v::AbstractVector, lo::Integer, hi::Integer)
     j = i+1
     @inbounds while true
         while isless(pivot, v[j]); j += 1; end # This won't oob because v[hi] <= pivot
-        j == hi && break
         v[i], v[j] = v[j], v[i]
         i += 1
+        j == hi && break
     end
     @inbounds v[lo], v[i-1] = v[i-1], v[lo]
 
-    # v[j] == pivot
-    # v[k] >= pivot for k > j
-    # v[i] <= pivot for i < j
-    return j
+    # v[i-1] == pivot
+    # v[k] >= pivot for k > i-1
+    # v[i] <= pivot for i < i-1
+    return i-1
 end
 
 naive_lomuto_quicksort!(v::AbstractVector) = naive_lomuto_quicksort!(v, firstindex(v), lastindex(v))
 function naive_lomuto_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
     @inbounds while lo < hi
-        hi-lo <= SMALL_THRESHOLD && return insertion_sort!(v, lo, hi)
+        hi-lo <= 4 && return insertion_sort!(v, lo, hi)
         j = lomuto_partition!(v, lo, hi)
         if j-lo < hi-j
             # recurse on the smaller chunk
