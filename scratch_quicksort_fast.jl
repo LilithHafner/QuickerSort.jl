@@ -2,16 +2,30 @@ THRESHOLD() = 20
 
 "Use insertion sort to sort `src[lo:hi]` into `dst[lo:hi]`. Stable if rev=false, otherwise reverse-stable."
 function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::Int, rev::Bool)
-    @inbounds for i = lo:hi
-        j = i
-        x = src[i]
-        while j > lo
-            y = dst[j-1]
-            (rev ? !isless(y, x) : isless(x, y)) || break
-            dst[j] = y
-            j -= 1
+    @inbounds if rev
+        for i = lo:hi
+            j = i
+            x = src[i]
+            while j > lo
+                y = dst[j-1]
+                isless(x, y) || break
+                dst[j] = y
+                j -= 1
+            end
+            dst[j] = x
         end
-        dst[j] = x
+    else
+        for i = lo:hi
+            j = i
+            x = src[i]
+            while j > lo
+                y = dst[j-1]
+                !isless(y, x) || break
+                dst[j] = y
+                j -= 1
+            end
+            dst[j] = x
+        end
     end
 end
 
