@@ -14,12 +14,12 @@
         mi = Base.midpoint(lo, hi)
 
         # sort v[mi] <= v[lo] <= v[hi] such that the pivot is immediately in place
-        if v[lo] < v[mi]
+        if isless(v[lo], v[mi])
             v[mi], v[lo] = v[lo], v[mi]
         end
 
-        if v[hi] < v[lo]
-            if v[hi] < v[mi]
+        if isless(v[hi], v[lo])
+            if isless(v[hi], v[mi])
                 v[hi], v[lo], v[mi] = v[lo], v[mi], v[hi]
             else
                 v[hi], v[lo] = v[lo], v[hi]
@@ -41,8 +41,8 @@ function partition!(v::AbstractVector, lo::Integer, hi::Integer)
     i, j = lo, hi
     @inbounds while true
         i += 1; j -= 1
-        while v[i] < pivot; i += 1; end
-        while pivot < v[j]; j -= 1; end
+        while isless(v[i], pivot); i += 1; end
+        while isless(pivot, v[j]); j -= 1; end
         i >= j && break
         v[i], v[j] = v[j], v[i]
     end

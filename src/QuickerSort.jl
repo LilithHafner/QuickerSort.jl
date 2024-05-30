@@ -11,7 +11,7 @@ struct Div10
     n::Int
 end
 Base.isless(a::Div10, b::Div10) = a.n÷10 < b.n÷10
-function test(f)
+function test(f; allow_unstable=false)
     for len in 1:1000
         for _ in 1:10
             v = rand(len)
@@ -19,7 +19,7 @@ function test(f)
         end
 
         v2 = Div10.(rand(1:100, len))
-        f(copy(v2)) == sort(v2) || fail(v2, "Stability")
+        allow_unstable || f(copy(v2)) == sort(v2) || fail(v2, "Stability")
     end
 end
 function fail(v, message)

@@ -40,7 +40,7 @@ naive_hafner_quicksort!(v::AbstractVector) = naive_hafner_quicksort!(v, firstind
 naive_hafner_quicksort!(v::AbstractVector, lo::Integer, hi::Integer) = naive_hafner_quicksort!(similar(v), v, lo, hi, false, v)
 function naive_hafner_quicksort!(dst::AbstractVector, src::AbstractVector, lo::Integer, hi::Integer, rev::Bool, v::AbstractVector)
     @inbounds while lo <= hi
-        hi-lo <= 2 && return insertion_sort!(src, lo, hi, rev, v)
+        hi-lo <= SMALL_THRESHOLD && return insertion_sort!(src, lo, hi, rev, v)
         pivot, j = hafner_partition!(dst, src, lo, hi, rev)
         src, dst = dst, src
         @inbounds v[j] = pivot

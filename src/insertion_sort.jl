@@ -11,7 +11,7 @@ function insertion_sort!(v::AbstractVector, lo::Int, hi::Int)
         x = v[i]
         while j > lo
             y = v[j-1]
-            if !((x < y)::Bool)
+            if !(isless(x, y)::Bool)
                 break
             end
             v[j] = y

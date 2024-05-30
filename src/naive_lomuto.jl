@@ -14,12 +14,12 @@
 
         # sort v[hi] <= v[lo] <= v[mi] such that the pivot is immediately in place
         # and a sentinel is at the end
-        if v[lo] < v[hi]
+        if isless(v[lo], v[hi])
             v[hi], v[lo] = v[lo], v[hi]
         end
 
-        if v[mi] < v[lo]
-            if v[mi] < v[hi]
+        if isless(v[mi], v[lo])
+            if isless(v[mi], v[hi])
                 v[mi], v[lo], v[hi] = v[lo], v[hi], v[mi]
             else
                 v[mi], v[lo] = v[lo], v[mi]
@@ -39,10 +39,10 @@ function lomuto_partition!(v::AbstractVector, lo::Integer, hi::Integer)
     pivot = lomuto_selectpivot!(v, lo, hi)
     # pivot == v[lo], v[mi] >= pivot, v[hi] <= pivot
     i = lo+1
-    @inbounds while v[i] < pivot; i += 1; end # This won't oob because v[mi] >= pivot
+    @inbounds while isless(v[i], pivot); i += 1; end # This won't oob because v[mi] >= pivot
     j = i+1
     @inbounds while true
-        while pivot < v[j]; j += 1; end # This won't oob because v[hi] <= pivot
+        while isless(pivot, v[j]); j += 1; end # This won't oob because v[hi] <= pivot
         j == hi && break
         v[i], v[j] = v[j], v[i]
         i += 1
