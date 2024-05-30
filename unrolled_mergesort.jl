@@ -18,6 +18,31 @@ function unrolled_merge_expr(target_index, xs, ys, sources)
     end
 end
 
+function unrolled_partial_merge_expr(target_index, xs, ys, sources, dir)
+    if isempty(sources)
+        Expr(:block)
+    else
+        x, x_tail = xs[1], xs[2:end]
+        y, y_tail = ys[1], ys[2:end]
+        s, s_tail = sources[1], sources[2:end]
+
+        true_next = unrolled_partial_merge_expr(target_index+dir, xs, y_tail, s_tail, dir)
+        false_next = unrolled_partial_merge_expr(target_index+dir, x_tail, ys, s_tail, dir)
+
+        true_body = y == s ? join_block(true_next) : join_block(:(v[i + $target_index] = $y), true_next)
+        false_body = x == s ? join_block(false_next) : join_block(:(v[i + $target_index] = $x), false_next)
+
+        Expr(:if, :(isless($y, $x)), true_body, false_body)
+    end
+end
+function unrolled_twosided_merge_expr(target_index, xs, ys, sources)
+    n = length(sources)÷2
+    join_block(
+        unrolled_partial_merge_expr(target_index, xs, ys, sources[1:n], 1),
+        unrolled_partial_merge_expr(target_index+length(xs), reverse(ys), reverse(xs), sources[n+1:end], -1),
+    )
+end
+
 function unrolled_mergesort_dfs_exprs(target_index, n)
     x = Ref(0)
     unrolled_mergesort_dfs_exprs(target_index, n, () -> (x[] += 1))
