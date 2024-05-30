@@ -35,13 +35,13 @@ function hafner_partition!(dst::AbstractVector, src::AbstractVector, lo::Integer
     pivot = src[pivot_index]
 
     large_values = 0
-    for i in lox:pivot_index-1
+    for i in lo:pivot_index-1
         x = src[i]
         fx = rev ? pivot <= x : pivot < x
         dst[(fx ? hi : i) - large_values] = x
         large_values += fx
     end
-    for i in pivot_index+1:hix
+    for i in pivot_index+1:hi
         x = src[i]
         fx = rev ? pivot < x : x <= pivot
         dst[(fx ? hi : i-1) - large_values] = x
@@ -59,11 +59,11 @@ function hafner_partition!(dst::AbstractVector, src::AbstractVector, lo::Integer
 end
 
 naive_hafner_quicksort!(v::AbstractVector) = naive_hafner_quicksort!(v, firstindex(v), lastindex(v))
-naive_hafner_quicksort!(v::AbstractVector, lo::Integer, hi::Integer) = naive_hafner_quicksort!(similar(v), v, lo, hi, rev, v)
+naive_hafner_quicksort!(v::AbstractVector, lo::Integer, hi::Integer) = naive_hafner_quicksort!(similar(v), v, lo, hi, false, v)
 function naive_hafner_quicksort!(dst::AbstractVector, src::AbstractVector, lo::Integer, hi::Integer, rev::Bool, v::AbstractVector)
     @inbounds while lo < hi
         hi-lo <= SMALL_THRESHOLD && return insertion_sort!(src, lo, hi, rev, v)
-        j = hafner_partition!(dst, src, lo, hi)
+        j = hafner_partition!(dst, src, lo, hi, rev)
         if j-lo < hi-j
             # recurse on the smaller chunk
             # this is necessary to preserve O(log(n))

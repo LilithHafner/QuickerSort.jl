@@ -1,3 +1,5 @@
+module QuickerSort
+
 include("insertion_sort.jl")
 include("naive_hoar.jl")
 include("naive_lomuto.jl")
@@ -16,7 +18,7 @@ function test(f)
             f(copy(v)) == sort(v) || error("Correctness $len")
         end
 
-        v2 = Div10.(rand(Int, len))
+        v2 = Div10.(rand(1:100, len))
         f(copy(v2)) == sort(v2) || error("Stability $len")
     end
 end
@@ -34,4 +36,6 @@ function count_comparisons(f, n)
 end
 function min_count(n)
     Float64(log2(factorial(big(n))))
+end
+
 end
