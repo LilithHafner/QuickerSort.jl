@@ -47,9 +47,9 @@ end
     # Write your tests here.
 
     @test test(QuickerSort.hafner_quicksort!)
-    @test test(QuickerSort.naive_hafner_quicksort!)
-    @test_throws ErrorException test(QuickerSort.naive_lomuto_quicksort!)
-    @test_throws ErrorException test(QuickerSort.naive_hoar_quicksort!)
-    @test test(QuickerSort.naive_lomuto_quicksort!, allow_unstable=true)
-    @test test(QuickerSort.naive_hoar_quicksort!, allow_unstable=true)
+    @test test(QuickerSort.simple_hafner_quicksort!)
+    @test_throws ErrorException test(QuickerSort.simple_lomuto_quicksort!)
+    @test_throws ErrorException test(QuickerSort.simple_hoar_quicksort!)
+    @test test(QuickerSort.simple_lomuto_quicksort!, allow_unstable=true)
+    @test test(QuickerSort.simple_hoar_quicksort!, allow_unstable=true)
 end

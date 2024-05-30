@@ -1,4 +1,4 @@
-# This file is adapted from `naive_hoar.jl` which, in turn, is adapted from Julia's standard library
+# This file is adapted from `simple_hoar.jl` which, in turn, is adapted from Julia's standard library
 
 function insertion_sort!(src, lo, hi, rev, v)
     src === v || copyto!(v, lo, src, lo, hi-lo+1)
@@ -36,9 +36,9 @@ function hafner_partition!(dst::AbstractVector, src::AbstractVector, lo::Integer
     return pivot, new_pivot_index
 end
 
-naive_hafner_quicksort!(v::AbstractVector) = naive_hafner_quicksort!(v, firstindex(v), lastindex(v))
-naive_hafner_quicksort!(v::AbstractVector, lo::Integer, hi::Integer) = naive_hafner_quicksort!(similar(v), v, lo, hi, false, v)
-function naive_hafner_quicksort!(dst::AbstractVector, src::AbstractVector, lo::Integer, hi::Integer, rev::Bool, v::AbstractVector)
+simple_hafner_quicksort!(v::AbstractVector) = simple_hafner_quicksort!(v, firstindex(v), lastindex(v))
+simple_hafner_quicksort!(v::AbstractVector, lo::Integer, hi::Integer) = simple_hafner_quicksort!(similar(v), v, lo, hi, false, v)
+function simple_hafner_quicksort!(dst::AbstractVector, src::AbstractVector, lo::Integer, hi::Integer, rev::Bool, v::AbstractVector)
     @inbounds while lo <= hi
         hi-lo <= SMALL_THRESHOLD && return insertion_sort!(src, lo, hi, rev, v)
         pivot, j = hafner_partition!(dst, src, lo, hi, rev)
@@ -48,11 +48,11 @@ function naive_hafner_quicksort!(dst::AbstractVector, src::AbstractVector, lo::I
             # recurse on the smaller chunk
             # this is necessary to preserve O(log(n))
             # stack space in the worst case (rather than O(n))
-            lo <= (j-1) && naive_hafner_quicksort!(dst, src, lo, j-1, rev, v)
+            lo <= (j-1) && simple_hafner_quicksort!(dst, src, lo, j-1, rev, v)
             lo = j+1
             rev = !rev
         else
-            j+1 <= hi && naive_hafner_quicksort!(dst, src, j+1, hi, !rev, v)
+            j+1 <= hi && simple_hafner_quicksort!(dst, src, j+1, hi, !rev, v)
             hi = j-1
         end
     end

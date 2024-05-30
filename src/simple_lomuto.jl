@@ -1,4 +1,4 @@
-# This file is adapted from `naive_hoar.jl` which, in turn, is adapted from Julia's standard library
+# This file is adapted from `simple_hoar.jl` which, in turn, is adapted from Julia's standard library
 
 # selectpivot!
 #
@@ -55,8 +55,8 @@ function lomuto_partition!(v::AbstractVector, lo::Integer, hi::Integer)
     return i-1
 end
 
-naive_lomuto_quicksort!(v::AbstractVector) = naive_lomuto_quicksort!(v, firstindex(v), lastindex(v))
-function naive_lomuto_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
+simple_lomuto_quicksort!(v::AbstractVector) = simple_lomuto_quicksort!(v, firstindex(v), lastindex(v))
+function simple_lomuto_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
     @inbounds while lo < hi
         hi-lo <= 4 && return insertion_sort!(v, lo, hi)
         j = lomuto_partition!(v, lo, hi)
@@ -64,10 +64,10 @@ function naive_lomuto_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
             # recurse on the smaller chunk
             # this is necessary to preserve O(log(n))
             # stack space in the worst case (rather than O(n))
-            lo < (j-1) && naive_lomuto_quicksort!(v, lo, j-1)
+            lo < (j-1) && simple_lomuto_quicksort!(v, lo, j-1)
             lo = j+1
         else
-            j+1 < hi && naive_lomuto_quicksort!(v, j+1, hi)
+            j+1 < hi && simple_lomuto_quicksort!(v, j+1, hi)
             hi = j-1
         end
     end

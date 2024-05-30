@@ -54,8 +54,8 @@ function partition!(v::AbstractVector, lo::Integer, hi::Integer)
     return j
 end
 
-naive_hoar_quicksort!(v::AbstractVector) = naive_hoar_quicksort!(v, firstindex(v), lastindex(v))
-function naive_hoar_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
+simple_hoar_quicksort!(v::AbstractVector) = simple_hoar_quicksort!(v, firstindex(v), lastindex(v))
+function simple_hoar_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
     @inbounds while lo < hi
         hi-lo <= SMALL_THRESHOLD && return insertion_sort!(v, lo, hi)
         j = partition!(v, lo, hi)
@@ -63,10 +63,10 @@ function naive_hoar_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
             # recurse on the smaller chunk
             # this is necessary to preserve O(log(n))
             # stack space in the worst case (rather than O(n))
-            lo < (j-1) && naive_hoar_quicksort!(v, lo, j-1)
+            lo < (j-1) && simple_hoar_quicksort!(v, lo, j-1)
             lo = j+1
         else
-            j+1 < hi && naive_hoar_quicksort!(v, j+1, hi)
+            j+1 < hi && simple_hoar_quicksort!(v, j+1, hi)
             hi = j-1
         end
     end
