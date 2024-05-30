@@ -28,10 +28,10 @@ function smallsort_to!(dst::AbstractVector, src::AbstractVector, lo::Int, hi::In
         end
     end
 end
-
+const Memory = isdefined(Base, :Memory) ? Base.Memory : Vector # For compatibility with old versions of Julia
 function make_scratch(v::AbstractVector)
     t = similar(v)
-    stack_size = max(0, Base.top_set_bit(length(v))-Base.top_set_bit(THRESHOLD()))
+    stack_size = max(0, leading_zeros(THRESHOLD())-leading_zeros(length(v)))
     stack = Memory{Tuple{Int, Int, typeof(v), typeof(v), Bool}}(undef, stack_size)
     t, stack
 end
