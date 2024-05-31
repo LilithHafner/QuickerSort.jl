@@ -1,0 +1,16 @@
+title: "A Fast, Stable Variant on Quicksort"
+keywords:
+  - Julia
+  - Performance
+  - Sorting
+authors:
+  - name: Lilith Hafner
+    orcid: 0000-0003-1361-440X
+    affiliation: 1
+  - name: Kobina Thatcher
+    affiliation: 1
+affiliations:
+  - name: Independent Researcher
+    index: 1
+date: 31 May 2024
+bibliography: ref.bib
