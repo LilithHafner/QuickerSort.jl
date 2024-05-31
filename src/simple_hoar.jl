@@ -1,4 +1,4 @@
-# This file is adapted from Julia's standard library implementation of QuickSort using Hoar partitioning
+# This file is adapted from Julia's standard library implementation of QuickSort using hoare partitioning
 # https://github.com/JuliaLang/julia/blob/6a10d03c5ec7ceaace325e2379ac1f0cac7c3761/base/sort.jl#L2320-L2389
 
 # selectpivot!
@@ -54,8 +54,8 @@ function partition!(v::AbstractVector, lo::Integer, hi::Integer)
     return j
 end
 
-simple_hoar_quicksort!(v::AbstractVector) = simple_hoar_quicksort!(v, firstindex(v), lastindex(v))
-function simple_hoar_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
+simple_hoare_quicksort!(v::AbstractVector) = simple_hoare_quicksort!(v, firstindex(v), lastindex(v))
+function simple_hoare_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
     @inbounds while lo < hi
         hi-lo <= SMALL_THRESHOLD && return insertion_sort!(v, lo, hi)
         j = partition!(v, lo, hi)
@@ -63,10 +63,10 @@ function simple_hoar_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
             # recurse on the smaller chunk
             # this is necessary to preserve O(log(n))
             # stack space in the worst case (rather than O(n))
-            lo < (j-1) && simple_hoar_quicksort!(v, lo, j-1)
+            lo < (j-1) && simple_hoare_quicksort!(v, lo, j-1)
             lo = j+1
         else
-            j+1 < hi && simple_hoar_quicksort!(v, j+1, hi)
+            j+1 < hi && simple_hoare_quicksort!(v, j+1, hi)
             hi = j-1
         end
     end

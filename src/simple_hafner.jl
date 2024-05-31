@@ -1,4 +1,4 @@
-# This file is adapted from `simple_hoar.jl` which, in turn, is adapted from Julia's standard library
+# This file is adapted from `simple_hoare.jl` which, in turn, is adapted from Julia's standard library
 
 function insertion_sort!(src, lo, hi, rev, v)
     src === v || copyto!(v, lo, src, lo, hi-lo+1)
@@ -11,7 +11,7 @@ end
 # select a pivot, and partition v according to the pivot
 
 function hafner_partition!(dst::AbstractVector, src::AbstractVector, lo::Integer, hi::Integer, rev::Bool)
-    # The pivot selection used in Hoar and Lomuto implementations is unstable so we have to use a different approach here
+    # The pivot selection used in hoare and Lomuto implementations is unstable so we have to use a different approach here
     pivot_index = mod(hash(lo), lo:hi)
     pivot = src[pivot_index]
 

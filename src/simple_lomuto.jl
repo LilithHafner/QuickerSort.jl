@@ -1,4 +1,4 @@
-# This file is adapted from `simple_hoar.jl` which, in turn, is adapted from Julia's standard library
+# This file is adapted from `simple_hoare.jl` which, in turn, is adapted from Julia's standard library
 
 # selectpivot!
 #

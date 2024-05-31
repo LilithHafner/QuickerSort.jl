@@ -49,7 +49,7 @@ end
     @test test(QuickerSort.hafner_quicksort!)
     @test test(QuickerSort.simple_hafner_quicksort!)
     @test_throws ErrorException test(QuickerSort.simple_lomuto_quicksort!)
-    @test_throws ErrorException test(QuickerSort.simple_hoar_quicksort!)
+    @test_throws ErrorException test(QuickerSort.simple_hoare_quicksort!)
     @test test(QuickerSort.simple_lomuto_quicksort!, allow_unstable=true)
-    @test test(QuickerSort.simple_hoar_quicksort!, allow_unstable=true)
+    @test test(QuickerSort.simple_hoare_quicksort!, allow_unstable=true)
 end
