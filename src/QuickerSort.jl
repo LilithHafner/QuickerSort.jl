@@ -9,10 +9,13 @@ include("optimized_hafner.jl")
 include("../plots/data.jl")
 include("../plots/plot.jl")
 
-function reproduce_figure()
-    save_data()
-    plot_data()
-    savefig("fig.svg")
+function reproduce_figures()
+    @time save_runtime_data()
+    plot_runtime_data()
+    savefig("runtime.svg")
+    @time save_count_data()
+    plot_count_data()
+    savefig("comparrisons.svg")
 end
 
 end
