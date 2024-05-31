@@ -58,7 +58,7 @@ end
 simple_lomuto_quicksort!(v::AbstractVector) = simple_lomuto_quicksort!(v, firstindex(v), lastindex(v))
 function simple_lomuto_quicksort!(v::AbstractVector, lo::Integer, hi::Integer)
     @inbounds while lo < hi
-        hi-lo <= 4 && return insertion_sort!(v, lo, hi)
+        hi-lo <= SMALL_THRESHOLD && return insertion_sort!(v, lo, hi)
         j = lomuto_partition!(v, lo, hi)
         if j-lo < hi-j
             # recurse on the smaller chunk
