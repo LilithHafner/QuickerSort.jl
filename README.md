@@ -23,5 +23,5 @@ readdir(".") # The figures should be listed here
 
 The paper and associated information lives in the `paper` directory. The reference
 implementations live in the `src` directory, with tests in the `test` directory. Folks
-wishing to build upon, port, or copy this code should probably read `src/simple_hafner.jl`
-and then `src/optimized_hafner.jl`.
+wishing to build upon, port, or copy this code should probably read `paper/paper/pdf`,
+`src/simple_hafner.jl`, and `src/optimized_hafner.jl`.
