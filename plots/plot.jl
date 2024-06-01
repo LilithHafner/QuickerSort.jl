@@ -17,7 +17,7 @@ function plot_runtime_data(;path="runtime_data.csv")
     p
 end
 
-function plot_count_data(;path="count_data.csv")
+function plot_comparrison_data(;path="comparrison_data.csv")
     data = CSV.read(path, DataFrame)
     p = plot(xaxis=:log, legend=:topleft, ylabel="Average comparrisons per element", xlabel="Input size (elements)", xticks=10 .^ (1:8),
         title="Average comparrisons to sort random input", titlefont=font("Computer Modern"),

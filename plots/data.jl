@@ -45,7 +45,7 @@ function min_count(n)
 end
 
 
-function save_count_data(sizes=SIZES[], path="count_data.csv")
+function save_comparrison_data(sizes=SIZES[], path="comparrison_data.csv")
     open(path, "w") do io
         println(io, "size,simple_lomuto,simple_hoare,simple_hafner,julia_hoare,julia_mergesort,julia_hafner,optimized_hafner,theoretical_minimum")
         for (i, size) in enumerate(sizes)
