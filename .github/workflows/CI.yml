@@ -32,7 +32,9 @@ jobs:
           - x64
           - x86
         exclude:
-          - os: macOS-latest
+          - os: macOS-latest # Does not exist
+            arch: x86
+          - os: windows-latest # Plots doesn't precompile
             arch: x86
     steps:
       - uses: actions/checkout@v4
