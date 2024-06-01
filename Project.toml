@@ -1,7 +1,7 @@
 name = "QuickerSort"
 uuid = "ef8ca56c-1b36-461a-9a94-546bd23dbda9"
 authors = ["Lilith Orion Hafner <lilithhafner@gmail.com> and contributors"]
-version = "0.0.0"
+version = "1.0.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
