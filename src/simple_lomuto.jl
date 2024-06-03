@@ -41,11 +41,11 @@ function lomuto_partition!(v::AbstractVector, lo::Integer, hi::Integer)
     i = lo+1
     @inbounds while isless(v[i], pivot); i += 1; end # This won't oob because v[mi] >= pivot
     j = i+1
-    @inbounds while true
+    @inbounds while j <= hi
         while isless(pivot, v[j]); j += 1; end # This won't oob because v[hi] <= pivot
         v[i], v[j] = v[j], v[i]
         i += 1
-        j == hi && break
+        j += 1
     end
     @inbounds v[lo], v[i-1] = v[i-1], v[lo]
 
