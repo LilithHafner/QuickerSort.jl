@@ -31,21 +31,6 @@ function fail(v, message)
     error(message * " " * string(length(v)))
 end
 
-struct Count
-    n::Int
-    counter::Base.RefValue{Int}
-end
-Base.isless(a::Count, b::Count) = (a.counter[] += 1; a.n < b.n)
-function count_comparisons(f, n)
-    counter = Ref(0)
-    x = rand(Int, n)
-    f(Count.(x, Ref(counter)))
-    counter[]
-end
-function min_count(n)
-    Float64(log2(factorial(big(n))))
-end
-
 @testset "QuickerSort.jl" begin
     # @testset "Code quality (Aqua.jl)" begin
     #     Aqua.test_all(QuickerSort)
