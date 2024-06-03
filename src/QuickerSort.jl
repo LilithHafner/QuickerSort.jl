@@ -14,7 +14,7 @@ function reproduce_figures()
     plot_runtime_data()
     savefig("runtime.svg")
     @time save_comparrison_data()
-    plot_count_data()
+    plot_comparrison_data()
     savefig("comparrisons.svg")
 end
 
