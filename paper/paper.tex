@@ -1,5 +1,4 @@
 \documentclass{juliacon}
-\usepackage{svg}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{tikz}
@@ -195,7 +194,7 @@ Additionally, we benchmark an optimized implementation of Quicksort using the pr
 
 \vspace{8pt}
 
-\scalebox{.5}{\includesvg{runtime.svg}}
+\scalebox{.5}{\includegraphics{runtime.pdf}}
 
 \vspace{8pt}
 
@@ -205,11 +204,11 @@ The relative performance of the discussed algorithms are similar for various bit
 
 \vspace{8pt}
 
-\scalebox{.5}{\includesvg{comparrisons.svg}}
+\scalebox{.5}{\includegraphics{comparrisons.pdf}}
 
 \vspace{5pt}
 
-Additionally, Mergesort performs fewer comparisons than any of the studied partitioning schemes. While Mergesort is significantly slower than the proposed partition scheme when comparisons are cheap, when comparisons are substantially more resource-intensive Mergesort will outperform all studied Quicksorts. 
+Additionally, Mergesort performs fewer comparisons than any of the studied partitioning schemes. While Mergesort is significantly slower than the proposed partition scheme when comparisons are cheap, when comparisons are substantially more resource-intensive Mergesort will outperform all studied Quicksorts.
 
 \subsection{Reproducibility}
 
